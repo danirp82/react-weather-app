@@ -1,47 +1,54 @@
 import React from 'react';
 import WeatherIcons from 'react-weathericons';
 import PropTypes from 'prop-types';
-
-import {
-    CLOUD,
+import { CLOUD, 
+    CLOUDY, 
     SUN,
     RAIN,
-    SNOW,
-    THUNDER,
-    DRIZZLE
-} from './../../../constants/weather';
+    SNOW, 
+    WINDY, 
+    THUNDER, 
+    DRIZZLE } from './../../../constants/weather';
 import './styles.css';
 
-const icons = {
-    [CLOUD]: 'cloud',
-    [SUN]: 'day-sunny',
-    [RAIN]: 'rain',
-    [SNOW]: 'snow',
-    [DRIZZLE]: 'day-showers',
-    [THUNDER]: 'day-thunderstorm' 
-}
-const getWeatherIcon = weatherState => {
-    const icon = icons[weatherState];
-    const sizeIcon= '4x';
-    if(icon) 
-        return <WeatherIcons className="wicon" name={icon} size={sizeIcon}/> 
-    else
-        return <WeatherIcons className="wicon" name="cloud" size={sizeIcon}/>
+const stateToIconName = weatherState => {
+    switch (weatherState) {
+        case CLOUD:
+            return "cloud";
+        case CLOUDY:
+            return "cloudy";
+        case SUN:
+            return "day-sunny";
+        case RAIN:
+            return "rain";
+        case SNOW:
+            return "snow";
+        case WINDY:
+            return "windy";
+        case THUNDER:
+            return "day-thunderstorm";
+        case DRIZZLE:
+            return "day-showers";
+        default:
+            return "day-sunny";
+    }
 };
 
-const WeatherTemperature = ({temperature, weatherState}) => (
-    <div className="weatherTemperatureCont">
-        {
-            getWeatherIcon(weatherState)
-        }
-        <span className="temperature">{`${temperature}`}</span>
-        <span className="temperatureType">{'ºC'}</span>
+const getWeatherIcon = weatherState => {
+    return (<WeatherIcons className='wicon' name={stateToIconName(weatherState)} size="4x" />);
+};
+
+const WeatherTemperature = ({ temperature, weatherState }) => (
+    <div className='weatherTemperatureCont' >
+        {getWeatherIcon(weatherState)}
+        <span className='temperature'>{`${temperature}`}</span>
+        <span className='temperaturetype'>C°</span>
     </div>
 );
 
 WeatherTemperature.propTypes = {
-    temperature : PropTypes.number.isRequired,
-    weatherState : PropTypes.string.isRequired
-}
+    temperature: PropTypes.number.isRequired,
+    weatherState: PropTypes.string,
+};
 
 export default WeatherTemperature;
